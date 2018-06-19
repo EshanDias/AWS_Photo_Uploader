@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CTSE AWS Assignment</title>
+    <script type="text/javascript">
+        function fileSelected(event) {
+            var file = document.getElementById('file_to_upload').files[0];
+            if (file) {
+                var fileSize = 0;
+                if (file.size > 1024 * 1024)
+                    fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+                else
+                    fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+
+                document.getElementById('Name').innerHTML = 'Name: ' + file.name;
+                document.getElementById('Size').innerHTML = 'Size: ' + fileSize;
+                document.getElementById('Type').innerHTML = 'Type: ' + file.type;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</head>
+
+<body>
+    <form id="ImageUploadForm" enctype="multipart/form-data" method="post" action="/upload">
+        <h2>
+            <font>Upload Images To AWS</font>
+        </h2>
+        <b>Browse file : </b>
+        </br>
+        </br>
+        <input type="file" id="file_to_upload" onchange="fileSelected(event);" accept="image/*" />
+        </br>
+        <div>
+            <div>
+                <img id="preview" src="http://placehold.it/180" alt="Image" />
+            </div>
+            <div>
+                <label id="Name"></label>
+                </br>
+                <label id="Size"></label>
+                </br>
+                <label id="Type"></label>
+                </br>
+            </div>
+        </div>
+        </br>
+        <input type="submit" value="Upload" />
+    </form>
+</body>
+
+</html>
